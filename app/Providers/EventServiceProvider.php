@@ -17,6 +17,7 @@ class EventServiceProvider extends ServiceProvider
     protected $listen = [
         Registered::class => [
             SendEmailVerificationNotification::class,
+            CreateTaskEvent::class,
         ],
     ];
 
@@ -25,7 +26,16 @@ class EventServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //
+        Event::listen(CreateTaskEvent::class, function () {
+            Window::open('create')
+                ->route('tasks.create')
+                ->title('Créer une tâche')
+                
+                ->width(300)
+                ->height(480);
+                Window::close('index');
+
+        });
     }
 
     /**
